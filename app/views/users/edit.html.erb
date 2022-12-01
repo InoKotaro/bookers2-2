@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+
+      <h2>User info</h2>
+
+      <% if @user.errors.any? %>
+        <%= @user.errors.count %>error prohibited this obj from being saved:
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+        <form enctype="multipart/form-data" action="/users/64470" accept-charset="UTF-8" method="post">
+
+          <%= form_with model: @user, method: :patch do |f| %>
+
+            <div class="form-group">
+              <label for="inputName">Name</label>
+              <div>
+              <%= f.text_field :name, autofocus: true, id:"inputName" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputImage">Image</label>
+              <div>
+              <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputIntroduction">Introduction</label>
+              <div>
+              <%= f.text_field :introduction, autofocus: true, id:"inputIntroduction" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.submit "Update User", class: "btn btn-secondary"%>
+            </div>
+
+          <% end %>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

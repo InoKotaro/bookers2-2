@@ -1,0 +1,59 @@
+<html>
+
+    <div class="container">
+
+        <% if @book.errors.any? %>
+          <%= @book.errors.count %>error prohibited this obj from being saved:
+            <ul>
+              <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+      <div class="row">
+          <div class="col-md-3">
+            <!-----------------------部分テンプレ------------------------------------>
+            <%= render 'list', user: @user, book: @book %>
+
+          </div>
+
+          <div class="col-md-8 offset-md-1">
+
+          <%= render 'searches/search' %>
+
+            <h1>Books</h1>
+            <table>
+                <thead>
+                	<th></th>
+                    <th>Title</th>
+                    <th>Opinion</th>
+                    <th colspan="3"></th>
+                </thead>
+
+                <tbody>
+                    <% @books.each do |book| %>
+                        <tr>
+                        	<td>
+                      	    <%= link_to user_path(book.user) do %>
+                                  <%= image_tag book.user.get_profile_image(100,100) %>
+                              <% end %>
+                          </td>
+
+                          <td><%= link_to book.title, book_path(book), method: :get %>
+                            <span><%= book.body %></span>
+                          </td>
+
+                          <td id="favorite_buttons_<%= book.id %>">
+                             <%= render "favorites/favorite", book: book %>
+                          </td>
+
+                          <td><%= book.comments.count %>コメント</td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+</html>

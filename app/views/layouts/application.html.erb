@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <script src="https://kit.fontawesome.com/96a43cceb0.js" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+<body>
+        <header>
+                <% if user_signed_in? %>
+
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                      <div class="container">
+                        <a class="navbar-brand" href="/"><span>Bookers</span></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"></button>
+                          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <ul class="navbar-nav ml-auto", "link-light">
+                              <li class= "sidebar-item">
+                                <%= link_to user_path(current_user), class: "nav-link text-light" do %>
+                                  <i class="fas fa-home"></i>
+                                  <span>Home</span>
+                                <% end %>
+                              </li>
+
+                              <li class= "sidebar-item">
+                                <%= link_to users_path, class: "nav-link text-light" do %>
+                                <i class="fas fa-users"></i>
+                                  <span>Users</span>
+                                <%end %>
+                              </li>
+
+                             <li class= "sidebar-item">
+                                <%= link_to books_path, class: "nav-link text-light" do %>
+                                <i class="fas fa-book-open"></i>
+                                  <span>Books</span>
+                                <%end %>
+                              </li>
+
+                              <li class= "sidebar-item">
+                                <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-light" do %>
+                                <i class="fas fa-sign-out-alt"></i>
+                                  <span>Log out</span>
+                                <%end %>
+                              </li>
+                            </ul>
+                          </div>
+                      </div>
+                    </nav>
+
+                  <% else %>
+
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                     <div class="container">
+                       <a class="navbar-brand" href="/"><span>Bookers</span></a>
+                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation"></button>
+                         <div class="navbar-collapse collapse show" id="navbarNavDropdown" style>
+                            <ul class="navbar-nav ml-auto">
+                              <li class= "sidebar-item">
+                                <%= link_to root_path, class: "nav-link text-light" do %>
+                                  <i class="fas fa-home"></i>
+                                  <span>Home</span>
+                                <%end %>
+                              </li>
+
+                              <li class= "sidebar-item">
+                                <%= link_to about_path, class: "nav-link text-light" do %>
+                                  <i class="fas fa-link"></i>
+                                  <span>About</span>
+                                <%end %>
+                              </li>
+
+                              <li class= "sidebar-item">
+                                <%= link_to new_user_registration_path, class: "nav-link text-light" do %>
+                                <i class="fas fa-user-plus"></i>
+                                  <span>Sign up</span>
+                                <%end %>
+                              </li>
+
+                              <li class= "sidebar-item">
+                                <%= link_to new_user_session_path, class: "nav-link text-light" do %>
+                                  <i class="fas fa-sign-in-alt"></i>
+                                  <span>Log in</span>
+                                <%end %>
+                              </li>
+                            </ul>
+                          </div>
+                        </a>
+                      </div>
+                    </nav>
+
+                  <% end %>
+
+              </div>
+            </div>
+          </nav>
+        </header>
+
+      <main>
+        <div><%= flash[:notice] %></div>
+        <%= yield %>
+      </main>
+
+      <footer></footer>
+  </body>
+</html>

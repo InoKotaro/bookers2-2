@@ -1,0 +1,112 @@
+
+<div class="container">
+
+      <% if @book.errors.any? %>
+        <%= @book.errors.count %>error prohibited this obj from being saved:
+            <ul>
+              <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+      <% end %>
+
+  <div><%= flash[:notice] %></div>
+  <div class="row">
+    <div class="col-md-3">
+          <!-----------------------部分テンプレ------------------------------------>
+            <%= render 'list', user: @user, book: @book %>
+    </div>
+
+
+    <div class="col-md-8 offset-md-1">
+
+        <h1>Book detail</h1>
+        <table>
+            <thead>
+            	<th></th>
+                <th></th>
+                <th></th>
+                <th colspan="3"></th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <%= link_to user_path(@book_show.user) do %>
+                          <%= image_tag @book_show.get_image, class:"card-img-top"; %>
+                          <%=  @book_show.user.name %>
+                        <% end %>
+                    </td>
+                    <td><%= link_to @book_show.title, book_path(@book_show), method: :get %></td>
+                    <td><%= @book_show.body %></td>
+
+                    <td>
+                        <% if @book_show.favorited_by?(current_user) %>
+
+                                  <%= link_to book_favorites_path(@book_show), method: :delete do %>
+                                    <i class="fa-solid fa-heart">  <%= @book_show.favorites.count %></i>
+                                  <% end %><!--押下後-->
+
+
+                                <% else %>
+
+                                  <%= link_to book_favorites_path(@book_show), method: :post do %>
+                                    <i class="fa-regular fa-heart">  <%= @book_show.favorites.count %></i>
+                                  <% end %><!--押下前-->
+
+                        <% end %>
+                    </td>
+
+                    <td>
+                        <% if @book_show.user == current_user %>
+                            <%= link_to "Edit", edit_book_path(@book_show), class: "btn btn-success" %>
+                            <%= link_to "Destroy", book_path, class: "btn btn-danger", method: :delete, "data-confirm" => "本当に消しますか？" %>
+                        <% end %>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+<!---------------------------------------------↓コメント-------------------------------------------------------------------->
+        <h2 class="comment-count"><%= @book_show.comments.count %>コメント</h2>
+
+        <%= form_with model:[@book_comment, @comment] do |f| %>
+            <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに", class: "w-100" %>
+            <%= f.submit "送信する" %>
+        <% end %>
+
+        <table>
+            <thead>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th colspan="4"></th>
+            </thead>
+
+            <tbody>
+
+                    <% @book_comment.comments.each do |comment| %>
+                        <tr>
+                            <td><%= link_to user_path(comment.user) do %>
+                                <%= image_tag comment.user.get_profile_image(100,100) %>
+                            <% end %>
+                            </td>
+                            <td><%= comment.user.name %></td>
+                            <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+                            <td><%= comment.comment %></td>
+                            <td>
+                                <% if comment.user == current_user %>
+                                <div class="comment-delete">
+                                  <%= link_to "削除", book_comment_path(comment.book, comment), method: :delete %>
+                                </div>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+            <tbody>
+        </table>
+    </div>
+
+  </div>
+</div>
