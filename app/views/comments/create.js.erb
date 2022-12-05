@@ -1,0 +1,4 @@
+$(".comment_each").html("<%= j(render 'comments/comment', book_comment: @book) %>");<!--classの時はドット、idの時はシャープ--->
+$("#comment_count").html("<%= @book.comments.count %>");
+$("#comment_comment").val('');
+

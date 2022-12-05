@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-md-3">
           <!-----------------------部分テンプレ------------------------------------>
-            <%= render 'list', user: @user, book: @book %>
+            <%= render 'list', user: @book_show.user, book: @book %>
     </div>
 
 
@@ -40,21 +40,9 @@
                     <td><%= link_to @book_show.title, book_path(@book_show), method: :get %></td>
                     <td><%= @book_show.body %></td>
 
-                    <td>
-                        <% if @book_show.favorited_by?(current_user) %>
-
-                                  <%= link_to book_favorites_path(@book_show), method: :delete do %>
-                                    <i class="fa-solid fa-heart">  <%= @book_show.favorites.count %></i>
-                                  <% end %><!--押下後-->
-
-
-                                <% else %>
-
-                                  <%= link_to book_favorites_path(@book_show), method: :post do %>
-                                    <i class="fa-regular fa-heart">  <%= @book_show.favorites.count %></i>
-                                  <% end %><!--押下前-->
-
-                        <% end %>
+<!-----------------------------------↓いいねテンプレ--------------------------------------------------------------->
+                    <td id="favorite_buttons">
+                        <%= render 'favorites/favorite', book: @book_show %>
                     </td>
 
                     <td>
@@ -68,44 +56,19 @@
             </tbody>
         </table>
 <!---------------------------------------------↓コメント-------------------------------------------------------------------->
-        <h2 class="comment-count"><%= @book_show.comments.count %>コメント</h2>
+        <h2><span id="comment_count"><%= @book_show.comments.count %></span>コメント</h2>
 
-        <%= form_with model:[@book_comment, @comment] do |f| %>
-            <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに", class: "w-100" %>
-            <%= f.submit "送信する" %>
-        <% end %>
+             <!-----------------------↓コメントformテンプレ---------------------------->
+        <div>
+            <%= render "comments/comment_form", book_comment: @book_show, comment: @comment %>
+        </div>
 
-        <table>
-            <thead>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th colspan="4"></th>
-            </thead>
 
-            <tbody>
+            <!-----------------------↓コメントeachテンプレ---------------------------->
+                <div class="comment_each">
+                    <%= render "comments/comment", book_comment: @book_show %>
+                </div>
 
-                    <% @book_comment.comments.each do |comment| %>
-                        <tr>
-                            <td><%= link_to user_path(comment.user) do %>
-                                <%= image_tag comment.user.get_profile_image(100,100) %>
-                            <% end %>
-                            </td>
-                            <td><%= comment.user.name %></td>
-                            <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
-                            <td><%= comment.comment %></td>
-                            <td>
-                                <% if comment.user == current_user %>
-                                <div class="comment-delete">
-                                  <%= link_to "削除", book_comment_path(comment.book, comment), method: :delete %>
-                                </div>
-                                <% end %>
-                            </td>
-                        </tr>
-                    <% end %>
-            <tbody>
-        </table>
     </div>
 
   </div>

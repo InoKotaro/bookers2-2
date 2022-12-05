@@ -1,0 +1,18 @@
+<% book_comment.comments.each do |comment| %>
+    <tr>
+        <td><%= link_to user_path(comment.user) do %>
+                <%= image_tag comment.user.get_profile_image(100,100) %>
+            <% end %>
+        </td>
+        <td><%= comment.user.name %></td>
+        <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+        <td><%= comment.comment %></td>
+        <td>
+            <% if comment.user == current_user %>
+            <div class="comment-delete">
+              <%= link_to "削除", book_comment_path(comment.book, comment), method: :delete, remote: true %>
+            </div>
+            <% end %>
+        </td>
+    </tr>
+<% end %>
