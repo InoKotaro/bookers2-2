@@ -13,12 +13,20 @@
 
   <div class="row">
     <div class="col-md-3">
-  <!-----------------------部分テンプレ------------------------------------>
+  <!-----------------------ユーザー情報部分テンプレ------------------------------------>
   <%= render 'books/list', user: @user, book: @book %>
 
     </div>
 
     <div class="col-md-8 offset-md-1">
+  <!--------------------------投稿数比較テンプレ-------------------------------------->
+  <%= render 'books/table', books_count: @books_count,
+                            today_book: @today_book,
+                            yesterday_book: @yesterday_book,
+                            this_week_book: @this_week_book,
+                            last_week_book: @last_week_book,
+                            the_day_before: @the_day_before %>
+
         <h1>Books</h1>
             <table>
                 <thead>

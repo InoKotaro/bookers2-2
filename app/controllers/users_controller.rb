@@ -12,6 +12,12 @@ class UsersController < ApplicationController
 		@book= Book.new
 		@user= User.find(params[:id])
 		@books= @user.books
+
+		@books_count = @books.reverse_order
+	    @today_book =  @books_count.created_today
+	    @yesterday_book = @books_count.created_yesterday
+	    @this_week_book = @books_count.created_this_week
+	    @last_week_book = @books_count.created_last_week
 	end
 
 	def edit
@@ -30,6 +36,8 @@ class UsersController < ApplicationController
 			render :edit
 		end
 	end
+
+
 
 	private
 

@@ -25,7 +25,7 @@ class BooksController < ApplicationController
     @book= Book.new#新規作成用
     @book_show= Book.find(params[:id])#アソシ用
     # @user= @book_show.user#個別ユーザー情報用
-    # @book_comment= Book.find(params[:id])#コメント用
+    #@book_comment= Book.find(params[:id])#コメント用
     @comment= Comment.new#コメント用
 
   end
